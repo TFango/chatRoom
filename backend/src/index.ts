@@ -12,7 +12,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const publicPath = path.join(__dirname, "../../dist_front");
+// Ruta para archivos estáticos del frontend
+const publicPath = path.join(__dirname, "../dist_front");
 app.use(express.static(publicPath));
 
 app.use("/api", authRouter);
@@ -26,6 +27,7 @@ app.get(/.*/, (req, res) => {
 });
 
 
-app.listen(3000, () => {
-  console.log("Servidor corriendo en el puerto 3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
