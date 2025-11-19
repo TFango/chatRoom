@@ -1,7 +1,7 @@
 import { db } from "../services/firebase";
 import { ref, onChildAdded, push } from "firebase/database";
 
-const API_URL = import.meta.env.VITE_API_URL; // <<--- URL del backend
+const API_URL = "/api";
 
 type Message = { from: string; text: string; mine: boolean };
 
@@ -76,7 +76,7 @@ export const state = {
       throw new Error("email requerido");
     }
     //1) Intenta autenticar
-    const resAuth = await fetch(`${API_URL}/auth`, {
+    const resAuth = await fetch(`/api/auth`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
@@ -91,7 +91,7 @@ export const state = {
       name = data.name || name;
     } else {
       // Usuario NO existe -> creamos uno nuevo
-      const resSignup = await fetch(`${API_URL}/signup`, {
+      const resSignup = await fetch(`/api/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, name }),
@@ -116,7 +116,7 @@ export const state = {
   async createRoom() {
     const userId = this.getState().userId;
 
-    const resCreate = await fetch(`${API_URL}/rooms`, {
+    const resCreate = await fetch(`/api/rooms`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId }),
@@ -127,9 +127,7 @@ export const state = {
     const data = await resCreate.json();
     const roomId = data.id;
 
-    const resRtdb = await fetch(
-      `${API_URL}/rooms/${roomId}?userId=${userId}`
-    );
+    const resRtdb = await fetch(`/api/rooms/${roomId}?userId=${userId}`);
 
     if (!resRtdb.ok) throw new Error(`HTTP ${resRtdb.status}`);
 
@@ -151,9 +149,7 @@ export const state = {
     if (!roomId) throw new Error("No roomId set in state");
     if (!userId) throw new Error("User not authenticated");
 
-    const resRtdb = await fetch(
-       `${API_URL}/rooms/${roomId}?userId=${userId}`
-    );
+    const resRtdb = await fetch(`/api/rooms/${roomId}?userId=${userId}`);
 
     if (!resRtdb.ok) throw new Error(`HTTP ${resRtdb.status}`);
 
