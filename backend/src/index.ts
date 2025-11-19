@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const publicPath = path.join(__dirname, "../dist_front");
+const publicPath = path.join(__dirname, "dist_front");
 app.use(express.static(publicPath));
 
 app.use("/api", authRouter);
@@ -21,7 +21,7 @@ app.use("/api", messagesRouter);
 app.use("/api", roomRouter);
 app.use("/api", signupRouter);
 
-app.get(/.*/, (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));
 });
 
