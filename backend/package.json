@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "build:frontend": "cd ../frontend && pnpm install && pnpm run build && mkdir -p ../backend/dist_front && cp -r dist/* ../backend/dist_front/",
+    "build:frontend": "cd ../frontend && npm install && npm run build && mkdir -p ../backend/dist_front && cp -r dist/* ../backend/dist_front/",
     "render-build": "npm run build && npm run build:frontend",
     "start": "node dist/index.js"
   },
